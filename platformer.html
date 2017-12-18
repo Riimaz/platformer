@@ -58,13 +58,13 @@
 				//Check keys
 				//Move left
 				if (keys[65]) {
-					if (player.velx > player.speed) {
+					if (player.velx > -player.speed) {
 						player.velx--;
 					}
 				}
 				//Move right
 				if (keys[68]) {
-					if (player.velx > -player.speed) {
+					if (player.velx >= -player.speed) {
 						player.velx++;
 					}
 				}
@@ -87,12 +87,16 @@
 				if (player.x < 0) {
 					player.x = 0;
 				}
-				if (player.x > canvas.width) {
+				if (player.x + player.w > canvas.width) {
 					player.x = canvas.width - player.w;
+					player.velx = 125;
 				}
 				//Player collision with top and bottom
 				if (player.y + player.h > canvas.height) {
 					player.y = canvas.height - player.h;
+				}
+				if (player.y < 0) {
+					player.y = 0;
 				}
 
 				//Draw background

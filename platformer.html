@@ -19,7 +19,7 @@
 			var canvas = document.getElementById('gameCanvas'),
 				ctx = canvas.getContext('2d');
 
-			//Player object
+			//Player variables
 			var player = {
 				w: 20,
 				h: 50,
@@ -31,7 +31,7 @@
 				jumping: false
 			};
 			
-			//Platform object
+			//Platform variables
 			var platform = {
 				w: 128,
 				h: 15,
@@ -43,7 +43,7 @@
 				threey: 145,
 			};
 			
-			//Coin object
+			//Coin variables
 			var coin = {
 				d: 10,
 				x: 315,
@@ -58,18 +58,16 @@
 				//Check keys
 				//Move left
 				if (keys[65]) {
-					if (player.velx < player.speed) {
+					if (player.velx > player.speed) {
 						player.velx--;
 					}
 				}
-
 				//Move right
 				if (keys[68]) {
-					if (player.velx > -player.speed) {
+					if (player.velx < -player.speed) {
 						player.velx++;
 					}
 				}
-
 				//Jump
 				if (keys[32]) {
 					if (!player.jumping) {

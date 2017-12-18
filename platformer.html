@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	</head>
+	<body>
+		<canvas id="gameCanvas" width="640" height="320"></canvas>
+
+		<script type="text/javascript">
+			(function() {
+    			var requestAnimationFrame = window.requestAnimationFrame ||
+    				window.mozRequestAnimationFrame ||
+    				window.webkitRequestAnimationFrame ||
+    				window.msRequestAnimationFrame;
+    				window.requestAnimationFrame = requestAnimationFrame;
+			})();
+
+			//Get canvas and canvas context
+			var canvas = document.getElementById('gameCanvas'),
+				ctx = canvas.getContext('2d');
+
+			//Player object
+			var player = {
+				w: 20,
+				h: 50,
+				x: 200,
+				y: 270,
+				velx: 0,
+				vely: 0,
+				speed: 3,
+				jumping: false
+			};
+			
+			//Platform object
+			var platform = {
+				w: 128,
+				h: 15,
+				onex: 128,
+				oney: 245,
+				twox: 384,
+				twoy: 245,
+				threex: 256,
+				threey: 145
+			};
+			
+			//Coin object
+			var coin = {
+				d: 10,
+				x: 315,
+				y: 125
+			};
+
+			var keys = [],
+			friction = 0.8,
+			gravity = 0.2;
+
+			function update() {
+				//Check keys
+				//Move left
+				if (keys[65]) {
+					if (player.velx < player.speed) {
+						player.velx--;
+					}
+				}
+
+				//Move right
+				if (keys[68]) {
+					if (player.velx > -player.speed) {
+						player.velx++;
+					}
+				}
+
+				//Jump
+				if (keys[32]) {
+					if (!player.jumping) {
+						player.jumping = true;
+						player.vely = -player.speed * 2;
+					}
+				}
+
+				player.x *= friction;
+				player.y += gravity;
+
+				player.x += player.velx;
+				player.y += player.vely;
+
+				//Collision
+				if (player.x < 0) {
+					player.x = 0;
+				}
+				if (player.x > canvas.width) {
+					player.x = canvas.width - player.w;
+				}
+
+				if (player.y + player.h > canvas.height) {
+					player.y = canvas.height - player.h;
+				}
+
+				//Draw background
+				ctx.fillStyle = 'gray';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+				//Draw Platforms
+				ctx.strokeStyle = 'black';
+				ctx.rect(platform.onex, platform.oney, platform.w, platform.h);
+				ctx.rect(platform.twox, platform.twoy, platform.w, platform.h);
+				ctx.rect(platform.threex, platform.threey, platform.w, platform.h);
+				ctx.stroke();
+
+				//Draw coin
+				ctx.fillStyle = 'yellow';
+				ctx.fillRect(coin.x, coin.y, coin.d, coin.d);
+
+				//Draw player
+				ctx.fillStyle = 'blue';
+				ctx.fillRect(player.x, player.y, player.w, player.h);
+
+				requestAnimationFrame(update);
+			}
+
+			document.body.addEventListener('keydown', function(e) {
+    			keys[e.keyCode] = true;
+			});
+ 
+			document.body.addEventListener('keyup', function(e) {
+    			keys[e.keyCode] = false;
+			});
+
+			window.addEventListener('load', function(e){
+    			update();
+			});
+		</script>
+	</body>
+</html>

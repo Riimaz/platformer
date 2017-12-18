@@ -40,7 +40,7 @@
 				twox: 384,
 				twoy: 245,
 				threex: 256,
-				threey: 145,
+				threey: 145
 			};
 			
 			//Coin variables
@@ -51,8 +51,8 @@
 			};
 
 			var keys = [],
-			friction = 0.8,
-			gravity = 0.2;
+				friction = 0.8,
+				gravity = 0.2;
 
 			function update() {
 				//Check keys
@@ -64,7 +64,7 @@
 				}
 				//Move right
 				if (keys[68]) {
-					if (player.velx < -player.speed) {
+					if (player.velx > -player.speed) {
 						player.velx++;
 					}
 				}
@@ -83,13 +83,14 @@
 				player.y += player.vely;
 
 				//Collision
+				//Player collision with sides
 				if (player.x < 0) {
 					player.x = 0;
 				}
 				if (player.x > canvas.width) {
 					player.x = canvas.width - player.w;
 				}
-
+				//Player collision with top and bottom
 				if (player.y + player.h > canvas.height) {
 					player.y = canvas.height - player.h;
 				}
